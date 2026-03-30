@@ -13,6 +13,8 @@ app = FastAPI(title="ShopLite API", version="1.0.0")
 
 #     testing auto deploy
 
+#     testing auto deploy second time 
+
 
 
 
