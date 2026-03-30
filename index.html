@@ -1,4 +1,3 @@
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-sans);
@@ -237,43 +236,61 @@ function removeItem(id){
   filterProducts();
 }
 
-function placeOrder(subtotal,shipping,total){
-  const items = Object.entries(cart).map(([id,qty])=>{
-    const p=PRODUCTS.find(x=>x.id==id);
-    return {name:p.name,qty,price:p.price};
-  });
-  orders.unshift({
-    id:'#ORD-'+(++orderId),
-    items,
-    subtotal,shipping,total,
-    status:'Processing',
-    date: new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})
-  });
-  cart={};
-  updateBadge();
-  filterProducts();
-  showPage('orders');
+async function placeOrder(subtotal, shipping, total) {
+  const items = Object.entries(cart).map(([id, qty]) => ({
+    product_id: parseInt(id),
+    quantity: qty
+  }));
+
+  try {
+    const res = await fetch('/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items, subtotal, shipping, total })
+    });
+
+    if (!res.ok) throw new Error('Order failed');
+
+    cart = {};
+    updateBadge();
+    filterProducts();
+    showPage('orders');
+  } catch (err) {
+    alert('Failed to place order. Please try again.');
+    console.error(err);
+  }
 }
 
-function renderOrders(){
+async function renderOrders() {
   const el = document.getElementById('orders-list');
-  if(!orders.length){
-    el.innerHTML='<div class="empty-cart">No orders yet.<br>Go shop something!</div>';
-    return;
+  el.innerHTML = '<div class="empty-cart">Loading...</div>';
+
+  try {
+    const res = await fetch('/orders');
+    const orders = await res.json();
+
+    if (!orders.length) {
+      el.innerHTML = '<div class="empty-cart">No orders yet.<br>Go shop something!</div>';
+      return;
+    }
+
+    el.innerHTML = orders.map(o => `
+      <div class="order-card">
+        <div class="order-header">
+          <span class="order-id">${o.order_ref} &nbsp;·&nbsp; ${new Date(o.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</span>
+          <span class="order-status ${o.status==='Processing'?'status-processing':'status-delivered'}">${o.status}</span>
+        </div>
+        <div class="order-items-list">${o.items.map(it => `${it.product_name} × ${it.quantity}`).join(', ')}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="order-total">₹${o.total.toLocaleString('en-IN')}</span>
+          <span style="font-size:12px;color:var(--color-text-tertiary)">Shipping: ${o.shipping===0?'Free':'₹'+o.shipping}</span>
+        </div>
+      </div>
+    `).join('');
+  } catch (err) {
+    el.innerHTML = '<div class="empty-cart">Failed to load orders.</div>';
+    console.error(err);
   }
-  el.innerHTML = orders.map((o,i)=>`
-    <div class="order-card">
-      <div class="order-header">
-        <span class="order-id">${o.id} &nbsp;·&nbsp; ${o.date}</span>
-        <span class="order-status ${i===0&&o.status==='Processing'?'status-processing':'status-delivered'}">${i===0&&o.status==='Processing'?'Processing':'Delivered'}</span>
-      </div>
-      <div class="order-items-list">${o.items.map(it=>`${it.name} × ${it.qty}`).join(', ')}</div>
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <span class="order-total">${fmt(o.total)}</span>
-        <span style="font-size:12px;color:var(--color-text-tertiary)">Shipping: ${o.shipping===0?'Free':fmt(o.shipping)}</span>
-      </div>
-    </div>
-  `).join('');
 }
 
 filterProducts();

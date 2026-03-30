@@ -1,0 +1,159 @@
+Creating shoplite_backend  ... done
+ubuntu@ip-172-31-17-190:~/devops$ docker-compose logs -f backend
+Attaching to shoplite_backend
+shoplite_backend | INFO:     Will watch for changes in these directories: ['/app']
+shoplite_backend | INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+shoplite_backend | INFO:     Started reloader process [1] using StatReload
+shoplite_backend | Process SpawnProcess-1:
+shoplite_backend | Traceback (most recent call last):
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 143, in __init__
+shoplite_backend |     self._dbapi_connection = engine.raw_connection()
+shoplite_backend |                              ^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 3317, in raw_connection
+shoplite_backend |     return self.pool.connect()
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 448, in connect
+shoplite_backend |     return _ConnectionFairy._checkout(self)
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 1272, in _checkout
+shoplite_backend |     fairy = _ConnectionRecord.checkout(pool)
+shoplite_backend |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 712, in checkout
+shoplite_backend |     rec = pool._do_get()
+shoplite_backend |           ^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/impl.py", line 177, in _do_get
+shoplite_backend |     with util.safe_reraise():
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 121, in __exit__
+shoplite_backend |     raise exc_value.with_traceback(exc_tb)
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/impl.py", line 175, in _do_get
+shoplite_backend |     return self._create_connection()
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 389, in _create_connection
+shoplite_backend |     return _ConnectionRecord(self)
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 674, in __init__
+shoplite_backend |     self.__connect()
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 900, in __connect
+shoplite_backend |     with util.safe_reraise():
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 121, in __exit__
+shoplite_backend |     raise exc_value.with_traceback(exc_tb)
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 896, in __connect
+shoplite_backend |     self.dbapi_connection = connection = pool._invoke_creator(self)
+shoplite_backend |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/create.py", line 667, in connect
+shoplite_backend |     return dialect.connect(*cargs_tup, **cparams)
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 630, in connect
+shoplite_backend |     return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/psycopg2/__init__.py", line 122, in connect
+shoplite_backend |     conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend | psycopg2.OperationalError: connection to server at "aws-0-ap-southeast-1.pooler.supabase.com" (54.255.219.82), port 5432 failed: FATAL:  Tenant or user not found
+shoplite_backend |
+shoplite_backend |
+shoplite_backend | The above exception was the direct cause of the following exception:
+shoplite_backend |
+shoplite_backend | Traceback (most recent call last):
+shoplite_backend |   File "/usr/local/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+shoplite_backend |     self.run()
+shoplite_backend |   File "/usr/local/lib/python3.11/multiprocessing/process.py", line 108, in run
+shoplite_backend |     self._target(*self._args, **self._kwargs)
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+shoplite_backend |     target(sockets=sockets)
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 75, in run
+shoplite_backend |     return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/uvicorn/_compat.py", line 30, in asyncio_run
+shoplite_backend |     return runner.run(main)
+shoplite_backend |            ^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+shoplite_backend |     return self._loop.run_until_complete(task)
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+shoplite_backend |     return future.result()
+shoplite_backend |            ^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 79, in serve
+shoplite_backend |     await self._serve(sockets)
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 86, in _serve
+shoplite_backend |     config.load()
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 441, in load
+shoplite_backend |     self.loaded_app = import_from_string(self.app)
+shoplite_backend |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+shoplite_backend |     module = importlib.import_module(module_str)
+shoplite_backend |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+shoplite_backend |     return _bootstrap._gcd_import(name[level:], package, level)
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+shoplite_backend |   File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+shoplite_backend |   File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+shoplite_backend |   File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+shoplite_backend |   File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+shoplite_backend |   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+shoplite_backend |   File "/app/main.py", line 9, in <module>
+shoplite_backend |     models.Base.metadata.create_all(bind=engine)
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/sql/schema.py", line 5928, in create_all
+shoplite_backend |     bind._run_ddl_visitor(
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 3267, in _run_ddl_visitor
+shoplite_backend |     with self.begin() as conn:
+shoplite_backend |   File "/usr/local/lib/python3.11/contextlib.py", line 137, in __enter__
+shoplite_backend |     return next(self.gen)
+shoplite_backend |            ^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 3257, in begin
+shoplite_backend |     with self.connect() as conn:
+shoplite_backend |          ^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 3293, in connect
+shoplite_backend |     return self._connection_cls(self)
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 145, in __init__
+shoplite_backend |     Connection._handle_dbapi_exception_noconnection(
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2448, in _handle_dbapi_exception_noconnection
+shoplite_backend |     raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 143, in __init__
+shoplite_backend |     self._dbapi_connection = engine.raw_connection()
+shoplite_backend |                              ^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 3317, in raw_connection
+shoplite_backend |     return self.pool.connect()
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 448, in connect
+shoplite_backend |     return _ConnectionFairy._checkout(self)
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 1272, in _checkout
+shoplite_backend |     fairy = _ConnectionRecord.checkout(pool)
+shoplite_backend |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 712, in checkout
+shoplite_backend |     rec = pool._do_get()
+shoplite_backend |           ^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/impl.py", line 177, in _do_get
+shoplite_backend |     with util.safe_reraise():
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 121, in __exit__
+shoplite_backend |     raise exc_value.with_traceback(exc_tb)
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/impl.py", line 175, in _do_get
+shoplite_backend |     return self._create_connection()
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 389, in _create_connection
+shoplite_backend |     return _ConnectionRecord(self)
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 674, in __init__
+shoplite_backend |     self.__connect()
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 900, in __connect
+shoplite_backend |     with util.safe_reraise():
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 121, in __exit__
+shoplite_backend |     raise exc_value.with_traceback(exc_tb)
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 896, in __connect
+shoplite_backend |     self.dbapi_connection = connection = pool._invoke_creator(self)
+shoplite_backend |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/create.py", line 667, in connect
+shoplite_backend |     return dialect.connect(*cargs_tup, **cparams)
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 630, in connect
+shoplite_backend |     return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend |   File "/usr/local/lib/python3.11/site-packages/psycopg2/__init__.py", line 122, in connect
+shoplite_backend |     conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+shoplite_backend |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+shoplite_backend | sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "aws-0-ap-southeast-1.pooler.supabase.com" (54.255.219.82), port 5432 failed: FATAL:  Tenant or user not found
+shoplite_backend |
+shoplite_backend | (Background on this error at: https://sqlalche.me/e/20/e3q8)

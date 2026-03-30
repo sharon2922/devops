@@ -30,7 +30,7 @@ def startup():
 def root():
     """Serve the frontend with no-cache headers so updates are always picked up."""
     return FileResponse(
-        "ecommerce_app.html",
+        "index.html",
         headers={
             "Cache-Control": "no-store, no-cache, must-revalidate",
             "Pragma": "no-cache",
