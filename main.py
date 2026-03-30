@@ -10,6 +10,14 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="ShopLite API", version="1.0.0")
 
+
+#     testing auto deploy
+
+
+
+
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
