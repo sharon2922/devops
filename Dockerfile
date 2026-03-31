@@ -1,18 +1,18 @@
-#use python image
-FROM python:3.11
+# Use Python image
+FROM python:3.11-slim
 
-#set working directory
+# Set working directory
 WORKDIR /app
 
-#copy files
+# Copy and install dependencies from requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy rest of the backend code
 COPY . .
 
-#install dependencies
-RUN pip install fastapi uvicorn sqlalchemy psycopg2-binary python-dotenv
-
-#expose port 
+# Expose port
 EXPOSE 8000
 
-#run app 
-CMD ["uvicorn","main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
-
+# Run app
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,25 +1,15 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+
 from sqlalchemy.orm import Session
 from typing import List
 import models, schemas, crud
 from database import engine, get_db
-
+from fastapi import UploadFile, File
+from s3 import upload_image_to_s3
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="ShopLite API", version="1.0.0")
-
-
-#     testing auto deploy
-
-#     testing auto deploy second time 
-
-#     testing auto deploy third time 
-
-
-
-
 
 
 
@@ -38,7 +28,7 @@ def startup():
     db = next(get_db())
     crud.seed_products(db)
 
-
+'''
 @app.get("/")
 def root():
     """Serve the frontend with no-cache headers so updates are always picked up."""
@@ -48,7 +38,7 @@ def root():
             "Cache-Control": "no-store, no-cache, must-revalidate",
             "Pragma": "no-cache",
         },
-    )
+    )'''
 
 
 # ── Products ──────────────────────────────────────────────────────────────────
@@ -86,3 +76,23 @@ def get_order(order_id: int, db: Session = Depends(get_db)):
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
     return order
+
+
+
+@app.post("/products/{product_id}/image")
+def upload_product_image(
+    product_id: int,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db)
+):
+    product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    
+    filename = f"products/{product_id}-{file.filename}"
+    url = upload_image_to_s3(file.file, filename)
+    
+    product.image_url = url
+    db.commit()
+    
+    return {"image_url": url}
