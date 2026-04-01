@@ -8,6 +8,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
+                sh 'cd /home/ubuntu/devops && docker-compose --env-file .env down --rmi all'
                 sh 'cd /home/ubuntu/devops && docker-compose --env-file .env up -d --build'
             }
         }
