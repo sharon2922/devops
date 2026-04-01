@@ -4,24 +4,17 @@ services:
   backend:
     build: .
     container_name: shoplite_backend
+    restart: always
     ports:
       - "8000:8000"
-    environment:
-      user: postgres.wqjuxtcekltlxpagpqdg
-      password: xEG6NfY1QVgUFGpa
-      host: aws-0-ap-southeast-1.pooler.supabase.com
-      port: 5432
-      dbname: postgres
-      # ── S3 credentials ──────────────────────
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_REGION: ${AWS_REGION}
-      S3_BUCKET_NAME: ${S3_BUCKET_NAME}
+    env_file:
+      - .env
 
   frontend:
     build:
       context: .
       dockerfile: Dockerfile.frontend
     container_name: shoplite_frontend
+    restart: always
     ports:
       - "3000:80"
