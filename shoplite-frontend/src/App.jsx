@@ -399,7 +399,7 @@ export default function ShopLite() {
               {filtered.map((p) => (
                 <div key={p.id} className="product-card">
                   <div className="product-img-wrap">
-                    <img src={p.image_url || "https://via.placeholder.com/400"} alt={p.name} />
+                    <img src={p.image_url || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23F5F0EA'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='%23C4956A' font-size='16' dy='.3em'%3ENo Image%3C/text%3E%3C/svg%3E"} alt={p.name} />
                     {p.tag && <span className="product-tag">{p.tag}</span>}
                     {cart[p.id] && <span className="qty-badge">{cart[p.id]} in cart</span>}
                   </div>
@@ -442,7 +442,7 @@ export default function ShopLite() {
                   {cartItems.map((item) => (
                     <div key={item.id} className="cart-item">
                       <div className="cart-item-img">
-                        <img src={item.image_url || "https://via.placeholder.com/400"} alt={item.name} />
+                        <img src={item.image_url || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23F5F0EA'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='%23C4956A' font-size='16' dy='.3em'%3ENo Image%3C/text%3E%3C/svg%3E"} alt={item.name} />
                       </div>
                       <div className="cart-item-body">
                         <div className="cart-item-cat">{item.category}</div>
