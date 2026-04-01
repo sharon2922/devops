@@ -1,3 +1,0 @@
-docker login -u sharon29 
-
-dckr_pat_A88Rkiddhw6FSfgq0VHB95LBVFU
