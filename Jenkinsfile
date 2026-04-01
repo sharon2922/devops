@@ -3,17 +3,21 @@ pipeline {
     stages {
         stage('Pull') {
             steps {
-                sh 'cd /home/ubuntu/devops && git pull'
+                sh 'git -C /home/ubuntu/devops pull'
             }
         }
-        stage('Deploy') {
+        stage('Deploy Backend') {
             steps {
-                sh 'cd /home/ubuntu/devops && docker-compose --env-file .env down'
-                sh 'cd /home/ubuntu/devops && docker-compose --env-file .env up -d --build'
+                sh 'cd /home/ubuntu/devops && docker-compose --env-file .env up -d --build backend'
+            }
+        }
+        stage('Deploy Frontend') {
+            when {
+                changeset "shoplite-frontend/**"
+            }
+            steps {
+                sh 'cd /home/ubuntu/devops && docker-compose --env-file .env up -d --build frontend'
             }
         }
     }
 }
-
-
-
