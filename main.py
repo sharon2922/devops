@@ -21,7 +21,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+#testing for the flow
 @app.on_event("startup")
 def startup():
     """Seed products table on first run."""
