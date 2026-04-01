@@ -19,18 +19,19 @@ def seed_products(db: Session):
     if db.query(models.Product).count() > 0:
         return
     defaults = [
-        models.Product(id=1,  name="Wireless headphones",  price=2499, category="electronics", icon="🎧"),
-        models.Product(id=2,  name="Cotton t-shirt",        price=499,  category="clothing",    icon="👕"),
-        models.Product(id=3,  name="Python cookbook",       price=799,  category="books",       icon="📗"),
-        models.Product(id=4,  name="Dark chocolate",        price=199,  category="food",        icon="🍫"),
-        models.Product(id=5,  name="Mechanical keyboard",   price=3299, category="electronics", icon="⌨️"),
-        models.Product(id=6,  name="Running shoes",         price=2199, category="clothing",    icon="👟"),
-        models.Product(id=7,  name="Green tea pack",        price=349,  category="food",        icon="🍵"),
-        models.Product(id=8,  name="Design thinking",       price=599,  category="books",       icon="📘"),
-        models.Product(id=9,  name="USB-C hub",             price=1599, category="electronics", icon="🔌"),
-        models.Product(id=10, name="Denim jacket",          price=1899, category="clothing",    icon="🧥"),
-        models.Product(id=11, name="Almonds 500g",          price=449,  category="food",        icon="🥜"),
-        models.Product(id=12, name="Clean code",            price=699,  category="books",       icon="📙"),
+       
+        models.Product(id=1, name="Wireless headphones", price=2499, category="electronics", icon="🎧", image_url="YOUR_S3_URL"),
+        models.Product(id=2,  name="Cotton t-shirt",        price=499,  category="clothing",    icon="👕", image_url="YOUR_S3_URL"),
+        models.Product(id=3,  name="Python cookbook",       price=799,  category="books",       icon="📗", image_url="YOUR_S3_URL"),
+        models.Product(id=4,  name="Dark chocolate",        price=199,  category="food",        icon="🍫", image_url="YOUR_S3_URL"),
+        models.Product(id=5,  name="Mechanical keyboard",   price=3299, category="electronics", icon="⌨️", image_url="YOUR_S3_URL"),
+        models.Product(id=6,  name="Running shoes",         price=2199, category="clothing",    icon="👟", image_url="YOUR_S3_URL"),
+        models.Product(id=7,  name="Green tea pack",        price=349,  category="food",        icon="🍵", image_url="YOUR_S3_URL"),
+        models.Product(id=8,  name="Design thinking",       price=599,  category="books",       icon="📘", image_url="YOUR_S3_URL"),
+        models.Product(id=9,  name="USB-C hub",             price=1599, category="electronics", icon="🔌", image_url="YOUR_S3_URL"),
+        models.Product(id=10, name="Denim jacket",          price=1899, category="clothing",    icon="🧥", image_url="YOUR_S3_URL"),
+        models.Product(id=11, name="Almonds 500g",          price=449,  category="food",        icon="🥜", image_url="YOUR_S3_URL"),
+        models.Product(id=12, name="Clean code",            price=699,  category="books",       icon="📙", image_url="YOUR_S3_URL"),
     ]
     db.bulk_save_objects(defaults)
     db.commit()

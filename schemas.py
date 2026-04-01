@@ -11,6 +11,7 @@ class Product(BaseModel):
     price: int
     category: str
     icon: str
+    image_url: str | None = None  
 
     class Config:
         from_attributes = True
@@ -55,3 +56,5 @@ class OrderOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+

@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.env
+venv/
+node_modules/
+*.log
+shoplite-frontend/node_modules/
+shoplite-frontend/dist/
+*.pem
