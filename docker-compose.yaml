@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   backend:
-    build: .
+    image: sharon29/shoplite-backend:latest
     container_name: shoplite_backend
     restart: always
     ports:
@@ -11,9 +11,7 @@ services:
       - .env
 
   frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
+    image: sharon29/shoplite-frontend:latest
     container_name: shoplite_frontend
     restart: always
     ports:
