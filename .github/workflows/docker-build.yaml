@@ -34,3 +34,8 @@ jobs:
           dockerfile: Dockerfile.frontend
           push: true
           tags: sharon29/shoplite-frontend:latest
+
+      - name: Trigger Jenkins deployment
+        run: |
+          curl -X POST "http://13.60.86.100:8080/job/shoplite-deploy/build" \
+          --user sharon29:${{ secrets.JENKINS_TOKEN }}
