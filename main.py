@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
-
+from prometheus_fastapi_instrumentator import Instrumentator
 from sqlalchemy.orm import Session
 from typing import List
 import models, schemas, crud
@@ -10,8 +10,9 @@ from s3 import upload_image_to_s3
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="ShopLite API", version="1.0.0")
-
+Instrumentator().instrument(app).expose(app)
 # updated deployment flow 
+# updated deployment flow 2
 
 app.add_middleware(
     CORSMiddleware,
