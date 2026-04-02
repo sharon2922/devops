@@ -37,10 +37,18 @@ jobs:
 
       - name: Trigger Jenkins deployment
         run: |
-          CRUMB=$(curl -s -u "${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_PASS }}" \
-          "${{ secrets.JENKINS_URL }}/crumbIssuer/api/json" | python3 -c \
-          "import sys,json; d=json.load(sys.stdin); print(d['crumb'])")
+          CRUMB_DATA=$(curl -s -u "${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_PASS }}" \
+          "${{ secrets.JENKINS_URL }}/crumbIssuer/api/json")
+          echo "Crumb data: $CRUMB_DATA"
           
-          curl -X POST "${{ secrets.JENKINS_URL }}/job/shoplite-deploy/build" \
-          -H "Jenkins-Crumb: $CRUMB" \
+          CRUMB=$(echo $CRUMB_DATA | python3 -c \
+          "import sys,json; d=json.load(sys.stdin); print(d['crumb'])")
+          echo "Crumb: $CRUMB"
+          
+          CRUMB_FIELD=$(echo $CRUMB_DATA | python3 -c \
+          "import sys,json; d=json.load(sys.stdin); print(d['crumbRequestField'])")
+          echo "Crumb field: $CRUMB_FIELD"
+          
+          curl -v -X POST "${{ secrets.JENKINS_URL }}/job/shoplite-deploy/build" \
+          -H "$CRUMB_FIELD: $CRUMB" \
           --user "${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_PASS }}"
