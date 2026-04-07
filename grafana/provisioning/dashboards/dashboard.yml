@@ -1,0 +1,7 @@
+apiVersion: 1
+providers:
+  - name: ShopLite
+    folder: ShopLite
+    type: file
+    options:
+      path: /var/lib/grafana/dashboards
