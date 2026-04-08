@@ -1,0 +1,57 @@
+- name: Setup ShopLite server
+  hosts: shoplite
+  become: true
+
+  vars:
+    app_dir: /home/ubuntu/devops
+
+  tasks:
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+        update_cache: true
+
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose
+        state: present
+
+    - name: Start and enable Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: true
+        daemon_reload: true
+
+
+
+    - name: Add ubuntu user to docker group
+      user:
+        name: ubuntu
+        groups: docker
+        append: true
+
+    - name: Ensure repo is up to date
+      git:
+        repo: https://github.com/sharon2922/devops.git
+        dest: "{{ app_dir }}"
+        version: main
+        force: true
+
+    - name: Write .env file
+      copy:
+        content: |
+          DATABASE_URL={{ supabase_url }}
+          AWS_ACCESS_KEY_ID={{ aws_key }}
+          AWS_SECRET_ACCESS_KEY={{ aws_secret }}
+          S3_BUCKET=shoplite-images
+          AWS_REGION=eu-north-1
+        dest: "{{ app_dir }}/.env"
+        mode: '0600'
+
+    - name: Run docker-compose
+      shell: docker-compose up -d --build
+      args:
+        chdir: "{{ app_dir }}"
