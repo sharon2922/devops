@@ -1,0 +1,297 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  min-height:50vh;}
+.page{display:none;
+  max-width:900px;
+  margin:0 auto;}
+.page.active{display:block}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:20px}
+.nav-logo{font-size:16px;font-weight:500;color:var(--color-text-primary)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.cart-btn{position:relative;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:7px 14px;cursor:pointer;font-size:13px;color:var(--color-text-primary)}
+.cart-badge{position:absolute;top:-6px;right:-6px;background:#E24B4A;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:500}
+.search-bar{width:100%;padding:0 20px;margin-bottom:20px}
+.search-bar input{width:100%;padding:9px 14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:14px;background:var(--color-background-secondary);color:var(--color-text-primary)}
+.filters{display:flex;gap:8px;padding:0 20px;margin-bottom:20px;flex-wrap:wrap}
+.filter-btn{padding:6px 14px;border:0.5px solid var(--color-border-secondary);border-radius:20px;font-size:12px;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary)}
+.filter-btn.active{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;padding:0 20px 20px}
+.product-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;cursor:pointer;transition:border-color 0.15s}
+.product-card:hover{border-color:var(--color-border-secondary)}
+.product-img{width:100%;height:110px;display:flex;align-items:center;justify-content:center;font-size:36px;background:var(--color-background-secondary)}
+.product-info{padding:10px 12px}
+.product-name{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.product-price{font-size:14px;font-weight:500;color:var(--color-text-info)}
+.product-cat{font-size:11px;color:var(--color-text-tertiary);margin-bottom:6px}
+.add-btn{width:100%;padding:7px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:12px;cursor:pointer;background:transparent;color:var(--color-text-primary);margin-top:6px}
+.add-btn:hover{background:var(--color-background-secondary)}
+.cart-page{padding:0 20px 20px}
+.cart-item{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.cart-item-icon{width:44px;height:44px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.cart-item-name{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.cart-item-price{font-size:13px;color:var(--color-text-secondary)}
+.qty-ctrl{display:flex;align-items:center;gap:8px;margin-top:4px}
+.qty-btn{width:24px;height:24px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;background:transparent;font-size:14px;color:var(--color-text-primary);display:flex;align-items:center;justify-content:center}
+.qty-num{font-size:13px;font-weight:500;min-width:16px;text-align:center;color:var(--color-text-primary)}
+.remove-btn{margin-left:auto;padding:5px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;background:transparent;font-size:12px;color:var(--color-text-secondary)}
+.cart-summary{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:16px;margin-top:20px}
+.summary-row{display:flex;justify-content:space-between;font-size:14px;color:var(--color-text-secondary);margin-bottom:8px}
+.summary-total{display:flex;justify-content:space-between;font-size:16px;font-weight:500;color:var(--color-text-primary);padding-top:10px;border-top:0.5px solid var(--color-border-tertiary);margin-top:8px}
+.checkout-btn{width:100%;padding:12px;background:var(--color-background-info);border:none;border-radius:var(--border-radius-md);font-size:14px;font-weight:500;color:var(--color-text-info);cursor:pointer;margin-top:14px}
+.checkout-btn:hover{opacity:0.9}
+.empty-cart{text-align:center;padding:40px 20px;color:var(--color-text-secondary);font-size:14px}
+.order-page{padding:0 20px 20px}
+.order-success{background:var(--color-background-success);border:0.5px solid var(--color-border-success);border-radius:var(--border-radius-lg);padding:20px;text-align:center;margin-bottom:20px}
+.order-success-title{font-size:16px;font-weight:500;color:var(--color-text-success);margin-bottom:4px}
+.order-success-sub{font-size:13px;color:var(--color-text-success)}
+.order-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px;margin-bottom:12px}
+.order-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.order-id{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.order-status{font-size:11px;padding:3px 10px;border-radius:20px}
+.status-processing{background:var(--color-background-warning);color:var(--color-text-warning)}
+.status-delivered{background:var(--color-background-success);color:var(--color-text-success)}
+.order-items-list{font-size:13px;color:var(--color-text-secondary);margin-bottom:10px}
+.order-total{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.back-btn{padding:8px 16px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;background:transparent;font-size:13px;color:var(--color-text-secondary)}
+.section-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:14px}
+.no-results{text-align:center;padding:30px;color:var(--color-text-tertiary);font-size:14px}
+</style>
+
+<div class="nav">
+  <span class="nav-logo">ShopLite</span>
+  <div class="nav-right">
+    <button class="back-btn" id="nav-shop" onclick="showPage('shop')" style="display:none">Shop</button>
+    <button class="cart-btn" onclick="showPage('cart')">
+      Cart
+      <span class="cart-badge" id="cart-badge">0</span>
+    </button>
+    <button class="back-btn" onclick="showPage('orders')">Orders</button>
+  </div>
+</div>
+
+<div class="page active" id="page-shop">
+  <div class="search-bar">
+    <input type="text" placeholder="Search products..." id="search-input" oninput="filterProducts()">
+  </div>
+  <div class="filters" id="filters">
+    <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-btn" onclick="setFilter('electronics',this)">Electronics</button>
+    <button class="filter-btn" onclick="setFilter('clothing',this)">Clothing</button>
+    <button class="filter-btn" onclick="setFilter('food',this)">Food</button>
+    <button class="filter-btn" onclick="setFilter('books',this)">Books</button>
+  </div>
+  <div class="products" id="products-grid"></div>
+</div>
+
+<div class="page" id="page-cart">
+  <div class="cart-page">
+    <p class="section-title">Your cart</p>
+    <div id="cart-items"></div>
+    <div id="cart-summary"></div>
+  </div>
+</div>
+
+<div class="page" id="page-orders">
+  <div class="order-page">
+    <p class="section-title">Your orders</p>
+    <div id="orders-list"></div>
+  </div>
+</div>
+
+<script>
+const PRODUCTS = [
+  {id:1,name:'Wireless headphones',price:2499,cat:'electronics',icon:'🎧'},
+  {id:2,name:'Cotton t-shirt',price:499,cat:'clothing',icon:'👕'},
+  {id:3,name:'Python cookbook',price:799,cat:'books',icon:'📗'},
+  {id:4,name:'Dark chocolate',price:199,cat:'food',icon:'🍫'},
+  {id:5,name:'Mechanical keyboard',price:3299,cat:'electronics',icon:'⌨️'},
+  {id:6,name:'Running shoes',price:2199,cat:'clothing',icon:'👟'},
+  {id:7,name:'Green tea pack',price:349,cat:'food',icon:'🍵'},
+  {id:8,name:'Design thinking',price:599,cat:'books',icon:'📘'},
+  {id:9,name:'USB-C hub',price:1599,cat:'electronics',icon:'🔌'},
+  {id:10,name:'Denim jacket',price:1899,cat:'clothing',icon:'🧥'},
+  {id:11,name:'Almonds 500g',price:449,cat:'food',icon:'🥜'},
+  {id:12,name:'Clean code',price:699,cat:'books',icon:'📙'},
+];
+
+let cart = {};
+let orders = [];
+let activeFilter = 'all';
+let orderId = 1000;
+
+function fmt(n){return '₹'+n.toLocaleString('en-IN')}
+
+function showPage(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.getElementById('nav-shop').style.display = p==='shop'?'none':'block';
+  if(p==='cart') renderCart();
+  if(p==='orders') renderOrders();
+}
+
+function setFilter(cat, btn){
+  activeFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  filterProducts();
+}
+
+function filterProducts(){
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const filtered = PRODUCTS.filter(p=>{
+    const matchCat = activeFilter==='all' || p.cat===activeFilter;
+    const matchQ = p.name.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  renderProducts(filtered);
+}
+
+function renderProducts(list){
+  const grid = document.getElementById('products-grid');
+  if(!list.length){grid.innerHTML='<div class="no-results">No products found</div>';return;}
+  grid.innerHTML = list.map(p=>`
+    <div class="product-card">
+      <div class="product-img">${p.icon}</div>
+      <div class="product-info">
+        <div class="product-cat">${p.cat}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-price">${fmt(p.price)}</div>
+        <button class="add-btn" onclick="addToCart(${p.id})">
+          ${cart[p.id]?'Added ('+cart[p.id]+')':'Add to cart'}
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addToCart(id){
+  cart[id] = (cart[id]||0)+1;
+  updateBadge();
+  filterProducts();
+}
+
+function updateBadge(){
+  const total = Object.values(cart).reduce((a,b)=>a+b,0);
+  document.getElementById('cart-badge').textContent = total;
+}
+
+function renderCart(){
+  const items = Object.entries(cart).filter(([,q])=>q>0);
+  const el = document.getElementById('cart-items');
+  if(!items.length){
+    el.innerHTML='<div class="empty-cart">Your cart is empty.<br>Go add some products!</div>';
+    document.getElementById('cart-summary').innerHTML='';
+    return;
+  }
+  el.innerHTML = items.map(([id,qty])=>{
+    const p = PRODUCTS.find(x=>x.id==id);
+    return `
+    <div class="cart-item">
+      <div class="cart-item-icon">${p.icon}</div>
+      <div style="flex:1">
+        <div class="cart-item-name">${p.name}</div>
+        <div class="cart-item-price">${fmt(p.price)} each</div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty(${id},-1)">−</button>
+          <span class="qty-num">${qty}</span>
+          <button class="qty-btn" onclick="changeQty(${id},1)">+</button>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px">${fmt(p.price*qty)}</div>
+        <button class="remove-btn" onclick="removeItem(${id})">Remove</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  const subtotal = items.reduce((sum,[id,qty])=>{
+    return sum + PRODUCTS.find(x=>x.id==id).price*qty;
+  },0);
+  const shipping = subtotal>2000?0:99;
+  const total = subtotal+shipping;
+
+  document.getElementById('cart-summary').innerHTML=`
+    <div class="cart-summary">
+      <div class="summary-row"><span>Subtotal</span><span>${fmt(subtotal)}</span></div>
+      <div class="summary-row"><span>Shipping</span><span>${shipping===0?'Free':fmt(shipping)}</span></div>
+      <div class="summary-total"><span>Total</span><span>${fmt(total)}</span></div>
+      <button class="checkout-btn" onclick="placeOrder(${subtotal},${shipping},${total})">Place order</button>
+    </div>`;
+}
+
+function changeQty(id,delta){
+  cart[id] = (cart[id]||0)+delta;
+  if(cart[id]<=0) delete cart[id];
+  updateBadge();
+  renderCart();
+  filterProducts();
+}
+
+function removeItem(id){
+  delete cart[id];
+  updateBadge();
+  renderCart();
+  filterProducts();
+}
+
+async function placeOrder(subtotal, shipping, total) {
+  const items = Object.entries(cart).map(([id, qty]) => ({
+    product_id: parseInt(id),
+    quantity: qty
+  }));
+
+  try {
+    const res = await fetch('/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items, subtotal, shipping, total })
+    });
+
+    if (!res.ok) throw new Error('Order failed');
+
+    cart = {};
+    updateBadge();
+    filterProducts();
+    showPage('orders');
+  } catch (err) {
+    alert('Failed to place order. Please try again.');
+    console.error(err);
+  }
+}
+
+async function renderOrders() {
+  const el = document.getElementById('orders-list');
+  el.innerHTML = '<div class="empty-cart">Loading...</div>';
+
+  try {
+    const res = await fetch('/orders');
+    const orders = await res.json();
+
+    if (!orders.length) {
+      el.innerHTML = '<div class="empty-cart">No orders yet.<br>Go shop something!</div>';
+      return;
+    }
+
+    el.innerHTML = orders.map(o => `
+      <div class="order-card">
+        <div class="order-header">
+          <span class="order-id">${o.order_ref} &nbsp;·&nbsp; ${new Date(o.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</span>
+          <span class="order-status ${o.status==='Processing'?'status-processing':'status-delivered'}">${o.status}</span>
+        </div>
+        <div class="order-items-list">${o.items.map(it => `${it.product_name} × ${it.quantity}`).join(', ')}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="order-total">₹${o.total.toLocaleString('en-IN')}</span>
+          <span style="font-size:12px;color:var(--color-text-tertiary)">Shipping: ${o.shipping===0?'Free':'₹'+o.shipping}</span>
+        </div>
+      </div>
+    `).join('');
+  } catch (err) {
+    el.innerHTML = '<div class="empty-cart">Failed to load orders.</div>';
+    console.error(err);
+  }
+}
+
+filterProducts();
+</script>
