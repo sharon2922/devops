@@ -17,6 +17,7 @@ Instrumentator().instrument(app).expose(app)
 #4
 #5
 #6
+#7
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
