@@ -16,6 +16,7 @@ Instrumentator().instrument(app).expose(app)
 # updated deployment flow 3
 #4
 #5
+#6
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
